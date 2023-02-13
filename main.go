@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/csv"
+	"flag"
 	"fmt"
 	"math/rand"
 	"os"
@@ -9,7 +10,16 @@ import (
 	"time"
 )
 
+var (
+	flagSeed int64
+)
+
+func init() {
+	flag.Int64Var(&flagSeed, "seed", time.Now().UnixNano(), "seed of random, default is value of time.Now().UnixNano()")
+}
+
 func main() {
+	flag.Parse()
 	if err := run(); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
@@ -64,10 +74,8 @@ func run() error {
 		applicants[a.plan] = append(applicants[a.plan], a)
 	}
 
-	seed := time.Now().UnixNano()
-	rnd := rand.New(rand.NewSource(seed))
-
-	fmt.Println("Seed is", seed)
+	rnd := rand.New(rand.NewSource(flagSeed))
+	fmt.Println("Seed is", flagSeed)
 	fmt.Println()
 
 	time.Sleep(2 * time.Second)
@@ -77,8 +85,8 @@ func run() error {
 	rnd.Shuffle(len(applicants[planPlaTinum]), func(i, j int) {
 		applicants[planPlaTinum][i], applicants[planPlaTinum][j] = applicants[planPlaTinum][j], applicants[planPlaTinum][i]
 	})
-	printCompany(applicants[planPlaTinum][0].company, 1 * time.Second)
-	printCompany(applicants[planPlaTinum][1].company, 1 * time.Second)
+	printCompany(applicants[planPlaTinum][0].company, 1*time.Second)
+	printCompany(applicants[planPlaTinum][1].company, 1*time.Second)
 	for _, a := range applicants[planPlaTinum][2:] {
 		if a.next {
 			applicants[planGold] = append(applicants[planGold], a)
@@ -91,8 +99,8 @@ func run() error {
 	rnd.Shuffle(len(applicants[planGold]), func(i, j int) {
 		applicants[planGold][i], applicants[planGold][j] = applicants[planGold][j], applicants[planGold][i]
 	})
-	printCompany(applicants[planGold][0].company, 1 * time.Second)
-	printCompany(applicants[planGold][1].company, 1 * time.Second)
+	printCompany(applicants[planGold][0].company, 1*time.Second)
+	printCompany(applicants[planGold][1].company, 1*time.Second)
 
 	for _, a := range applicants[planGold][2:] {
 		if a.next {
