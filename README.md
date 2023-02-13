@@ -5,5 +5,5 @@
 ### Run lottery
 
 ```sh
-$ cat applicants.csv | go1.20 run main.go
+$ cat applicants.csv | go1.20 run main.go | tee result.txt
 ```
