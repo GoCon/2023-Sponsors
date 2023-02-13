@@ -42,7 +42,16 @@ func run() error {
 
 	records = records[1:] // skip header
 	applicants := make(map[plan][]applicant, len(records))
+	companies := make(map[string]bool, len(records))
 	for _, record := range records {
+
+		// skip duplicated company
+		if companies[record[0]] {
+			fmt.Fprintln(os.Stderr, record[0], "is duplicated")
+			continue
+		}
+		companies[record[0]] = true
+
 		a := applicant{
 			company: record[0],
 			plan:    plan(record[1]),
