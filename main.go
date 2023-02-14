@@ -74,7 +74,7 @@ func run() error {
 		applicants[a.plan] = append(applicants[a.plan], a)
 	}
 
-	rand.Seed(flagSeed)
+	rnd := rand.New(rand.NewSource(flagSeed))
 	fmt.Println("Seed is", flagSeed)
 	fmt.Println()
 
@@ -82,7 +82,7 @@ func run() error {
 
 	// Platinum "Go"ld sponsor
 	fmt.Println(`==== Platinum "Go"ld sponsor ====`)
-	rand.Shuffle(len(applicants[planPlaTinum]), func(i, j int) {
+	rnd.Shuffle(len(applicants[planPlaTinum]), func(i, j int) {
 		applicants[planPlaTinum][i], applicants[planPlaTinum][j] = applicants[planPlaTinum][j], applicants[planPlaTinum][i]
 	})
 	printCompany(applicants[planPlaTinum][0].company, 1*time.Second)
@@ -96,7 +96,7 @@ func run() error {
 
 	// "Go"ld sponsor
 	fmt.Println(`==== "Go"ld sponsor ====`)
-	rand.Shuffle(len(applicants[planGold]), func(i, j int) {
+	rnd.Shuffle(len(applicants[planGold]), func(i, j int) {
 		applicants[planGold][i], applicants[planGold][j] = applicants[planGold][j], applicants[planGold][i]
 	})
 	printCompany(applicants[planGold][0].company, 1*time.Second)
@@ -111,7 +111,7 @@ func run() error {
 
 	// Silver sponsor
 	fmt.Println("==== Silver sponsor ====")
-	rand.Shuffle(len(applicants[planSilver]), func(i, j int) {
+	rnd.Shuffle(len(applicants[planSilver]), func(i, j int) {
 		applicants[planSilver][i], applicants[planSilver][j] = applicants[planSilver][j], applicants[planSilver][i]
 	})
 	for _, a := range applicants[planSilver] {
@@ -121,7 +121,7 @@ func run() error {
 
 	// Bronze sponsor
 	fmt.Println("==== Bronze sponsor ====")
-	rand.Shuffle(len(applicants[planBronze]), func(i, j int) {
+	rnd.Shuffle(len(applicants[planBronze]), func(i, j int) {
 		applicants[planBronze][i], applicants[planBronze][j] = applicants[planBronze][j], applicants[planBronze][i]
 	})
 	for _, a := range applicants[planBronze] {
@@ -131,7 +131,7 @@ func run() error {
 
 	// Free sponsor
 	fmt.Println("==== Free sponsor ====")
-	rand.Shuffle(len(applicants[planFree]), func(i, j int) {
+	rnd.Shuffle(len(applicants[planFree]), func(i, j int) {
 		applicants[planFree][i], applicants[planFree][j] = applicants[planFree][j], applicants[planFree][i]
 	})
 	for _, a := range applicants[planFree] {
